@@ -1,0 +1,38 @@
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home/Home.vue'
+import Personal from '../views/Personal/Personal.vue'
+import Login from '../views/Login/Login.vue'
+
+Vue.use(VueRouter)
+
+export default new VueRouter({
+    mode: 'history',
+    routes: [{
+            path: '/',
+            redirect: '/login',
+        },
+        {
+            path: '/home',
+            component: Home,
+            meta: {
+                showHeader: true,
+                showSideNav: true,
+                showFooter: true
+            }
+        }, {
+            path: '/personal',
+            component: Personal,
+            meta: {
+                showHeader: true,
+                showSideNav: true,
+                showFooter: true
+            }
+        },
+        {
+            path: '/login',
+            component: Login
+        }
+    ],
+    fallback: true
+})
