@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home/Home.vue'
 import Personal from '../views/Personal/Personal.vue'
 import Login from '../views/Login/Login.vue'
+import Register from '../views/Register/Register.vue'
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,9 @@ export default new VueRouter({
         {
             path: '/login',
             component: Login
+        }, {
+            path: '/register',
+            component: Register
         }
     ],
     fallback: true
