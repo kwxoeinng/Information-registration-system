@@ -3,9 +3,11 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './app.vue'
 import router from './router'
+import store from './store'
 
 Vue.use(ElementUI);
 new Vue({
     render: h => h(App),
-    router
+    router,
+    store
 }).$mount('#app')

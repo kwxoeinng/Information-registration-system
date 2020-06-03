@@ -24,9 +24,16 @@
             show-password
           ></el-input>
         </div>
-        <el-button type="primary" round size="medium" @click="goTo('/home')"
-          >登录</el-button
-        >
+        <div class="loginBtn">
+          <el-button
+            style="width:100%"
+            type="primary"
+            round
+            size="medium"
+            @click="login('/home')"
+            >登录</el-button
+          >
+        </div>
       </div>
       <!-- 短信登录 -->
       <div v-show="!loginWay">
@@ -58,7 +65,15 @@
             placeholder="验证码"
           ></el-input>
         </div>
-        <el-button type="primary" round @click="goTo('/home')">登录</el-button>
+        <div class="loginBtn">
+          <el-button
+            style="width:100%;"
+            type="primary"
+            round
+            @click="login('/home')"
+            >登录</el-button
+          >
+        </div>
       </div>
     </form>
   </div>
@@ -85,28 +100,51 @@ export default {
   },
   methods: {
     //异步登录
-    goTo(path) {
+    async login(path) {
+      let result;
       // 前端验证
       if (this.loginWay) {
         //密码登录
         const { name, pwd } = this;
         if (this.name != "123") {
           this.$message.error("用户名输入有误，请检查");
+          return;
         } else if (this.pwd != "123456") {
           this.$message.error("密码输入有误，请检查");
-        } else {
-          this.$router.replace(path);
+          return;
         }
+        // 发送ajax请求密码登陆
+        result = await reqPwdLogin({ name, pwd });
       } else {
         //短信登录
         const { rightPhone, phone, code } = this;
         if (!this.rightPhone) {
           this.$message.error("手机号输入有误，请检查");
+          return;
         } else if (!/^\d{6}$/.test(code)) {
           this.$message.error("验证码输入有误，请检查");
-        } else {
-          this.$router.replace(path);
+          return;
         }
+        // 发送ajax请求短信登陆
+        result = await reqSmsLogin(phone, code);
+      }
+      // 停止计时
+      if (this.computeTime) {
+        this.computeTime = 0;
+        clearInterval(this.intervalId);
+        this.intervalId = undefined;
+      }
+      // 根据结果数据处理
+      if (result.code === 0) {
+        const user = result.data;
+        // 将user保存到vuex的state
+        this.$store.dispatch("recordUser", user);
+        // 去首页
+        this.$router.replace(path);
+      } else {
+        // 显示警告提示
+        const msg = result.msg;
+        this.$message.error(msg);
       }
     },
     // 异步获取短信验证码
@@ -126,7 +164,7 @@ export default {
         const result = await reqSendCode(this.phone);
         if (result.code === 1) {
           // 显示提示
-          this.$message.error(result.msg)
+          this.$message.error(result.msg);
           // 停止计时
           if (this.computeTime) {
             this.computeTime = 0;

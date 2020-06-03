@@ -7,7 +7,7 @@ import ajax from './ajax'
 const BASE_URL = '/api'
 
 // 用户名密码登陆
-export const reqPwdLogin = ({name, pwd, captcha}) => ajax(BASE_URL+'/login_pwd', {name, pwd, captcha}, 'POST')
+export const reqPwdLogin = ({name, pwd}) => ajax(BASE_URL+'/login_pwd', {name, pwd}, 'POST')
 // 发送短信验证码
 export const reqSendCode = (phone) => ajax(BASE_URL+'/sendcode', {phone})
 // 手机号验证码登陆

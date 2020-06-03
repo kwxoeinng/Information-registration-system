@@ -16,7 +16,14 @@
 import Header from "./components/Header/Header.vue";
 import SideNav from "./components/SideNav/SideNav.vue";
 import Footer from "./components/Footer/Footer.vue";
+import { mapActions } from "vuex";
 export default {
+  mounted() {
+    this.getUserInfo();
+  },
+  methods: {
+    ...mapActions(["getUserInfo"]),
+  },
   components: {
     Header,
     SideNav,
@@ -30,7 +37,11 @@ body {
   margin: 0;
   padding: 0;
 }
-.el-header,
+.el-header {
+  background-color: #b3c0d1;
+  color: #333;
+  line-height: 45px;
+}
 .el-footer {
   background-color: #b3c0d1;
   color: #333;
@@ -44,5 +55,4 @@ body {
   text-align: center;
   line-height: 680px;
 }
-
 </style>
