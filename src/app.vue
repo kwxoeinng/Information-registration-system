@@ -43,10 +43,10 @@ body {
   line-height: 45px;
 }
 .el-footer {
-  background-color: #b3c0d1;
-  color: #333;
+  color: #909399;
   text-align: center;
-  line-height: 60px;
+  line-height: 10px;
+  font-size:12px;
 }
 
 .el-aside {

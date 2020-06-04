@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <p>Footer</p>
-  </div>
+  <div>EditPerson</div>
 </template>
 <script>
 export default {};

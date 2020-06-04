@@ -16,5 +16,6 @@ export const reqSmsLogin = (phone, code) => ajax(BASE_URL+'/login_sms', {phone, 
 export const reqUserInfo = () => ajax(BASE_URL+'/userinfo')
 // 用户登出
 export const reqLogout = () => ajax(BASE_URL+'/logout')
-
+//新增来访人员
+export const reqAddPerson = ({age}) =>ajax(BASE_URL+'/addperson',{age},'POST')
 

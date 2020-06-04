@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div
+      style="width:400px;height:60px;float:left;font-size:20px;font-weight:bold;margin-top:10px;color:#606266"
+    >
+      学校来访人员信息登记系统
+    </div>
     <div class="headerBox">
       <!-- 头像 -->
       <div class="avatarLoginBox">
