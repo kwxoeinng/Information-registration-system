@@ -1,9 +1,9 @@
 <template>
-  <div id="list-container" style="margin:20px auto">
+  <div id="list-container" style="margin: 20px auto;">
     <!-- 查询、录入来访人员 -->
-    <div style="width:100%;overflow:hidden;">
+    <div style="width: 100%; overflow: hidden;">
       <el-form ref="form" label-width="80px">
-        <div style="float:left;width:30%">
+        <div style="float: left; width: 30%;">
           <el-form-item>
             <el-input
               placeholder="请输入身份证"
@@ -11,7 +11,7 @@
             ></el-input>
           </el-form-item>
         </div>
-        <el-button style="margin-left:20px;" @click="query(true)"
+        <el-button style="margin-left: 20px;" @click="conditionsQuery"
           >查 询</el-button
         >
         <el-button type="primary" @click="newAdd">录入来访人员</el-button>
@@ -19,9 +19,16 @@
     </div>
     <!-- 表格 -->
     <div
-      style="width:90%; margin: 0 auto; border: 1px solid #ebebeb; border-radius: 3px;overflow:hidden;"
+      style="
+        width: 90%;
+        height: 600px;
+        margin: 0 auto;
+        border: 1px solid #ebebeb;
+        border-radius: 3px;
+        overflow: hidden;
+      "
     >
-      <el-table :data="tableData" style="width: 100%">
+      <el-table :data="tableData" height="600" style="width: 100%;">
         <!-- 身份证 -->
         <el-table-column
           prop="personIdCard"
@@ -63,25 +70,25 @@
     <el-dialog title="新增" :visible.sync="dialogVisibleAdd" width="30%">
       <el-form :model="add" ref="add" label-width="80px">
         <!-- 身份证 -->
-        <div style="float:left;width:100%">
+        <div style="float: left; width: 100%;">
           <el-form-item label="身份证">
             <el-input v-model="add.personIdCard"></el-input>
           </el-form-item>
         </div>
         <!-- 姓名 -->
-        <div style="float:left;width:100%">
+        <div style="float: left; width: 100%;">
           <el-form-item label="姓名">
             <el-input v-model="add.personName"></el-input>
           </el-form-item>
         </div>
         <!-- 手机 -->
-        <div style="float:left;width:100%">
+        <div style="float: left; width: 100%;">
           <el-form-item label="手机">
             <el-input v-model="add.personPhone"></el-input>
           </el-form-item>
         </div>
         <!-- 来访时间 -->
-        <div style="float:left;width:100%">
+        <div style="float: left; width: 100%;">
           <el-form-item label="来访时间">
             <el-input v-model="add.personDate"></el-input>
           </el-form-item>
@@ -96,25 +103,25 @@
     <el-dialog title="编辑" :visible.sync="dialogVisibleEdit" width="30%">
       <el-form label-width="80px">
         <!-- 身份证 -->
-        <div style="float:left;width:100%">
+        <div style="float: left; width: 100%;">
           <el-form-item label="身份证">
-            <el-input v-model="update.perosonIdCard"></el-input>
+            <el-input v-model="update.personIdCard"></el-input>
           </el-form-item>
         </div>
         <!-- 姓名 -->
-        <div style="float:left;width:100%">
+        <div style="float: left; width: 100%;">
           <el-form-item label="姓名">
             <el-input v-model="update.personName"></el-input>
           </el-form-item>
         </div>
         <!-- 手机 -->
-        <div style="float:left;width:100%">
+        <div style="float: left; width: 100%;">
           <el-form-item label="手机">
             <el-input v-model="update.personPhone"></el-input>
           </el-form-item>
         </div>
         <!-- 来访时间 -->
-        <div style="float:left;width:100%">
+        <div style="float: left; width: 100%;">
           <el-form-item label="来访时间">
             <el-input v-model="update.personDate"></el-input>
           </el-form-item>
@@ -122,7 +129,9 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisibleEdit = false">取 消</el-button>
-        <el-button type="primary" @click="editConfirm">确 定</el-button>
+        <el-button type="primary" @click="editConfirm('update')"
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
     <!-- 删除对话框 -->
@@ -137,15 +146,18 @@
 </template>
 
 <script type="text/javascript">
-import { reqQueryPerson, reqAddPerson } from "../../api";
+import {
+  reqQueryPerson,
+  reqAddPerson,
+  reqDelPerson,
+  reqUpdatePerson,
+  reqConditionsQuery,
+} from "../../api";
 export default {
   data() {
     return {
       formLabelWidth: "120px",
       personIdCard: "",
-      personName: "",
-      personPhone: "",
-      personDate: "",
       tableData: [],
       // 新增页面
       add: {
@@ -172,13 +184,19 @@ export default {
     this.query();
   },
   methods: {
+    //查询数据
     async query(isquery) {
       let result;
-      const obj = {};
-      if (this.personIdCard) obj.personIdCard = this.personIdCard;
-      if (this.personName) obj.personName = this.personName;
-      if (this.personPhone) obj.personPhone = this.personPhone;
-      if (this.personDate) obj.personDate = this.personDate;
+      const obj = {
+        personIdCard: this.personIdCard,
+        personName: this.personName,
+        personPhone: this.personPhone,
+        personDate: this.personDate,
+      };
+      // if (this.personIdCard) obj.personIdCard = this.personIdCard;
+      // if (this.personName) obj.personName = this.personName;
+      // if (this.personPhone) obj.personPhone = this.personPhone;
+      // if (this.personDate) obj.personDate = this.personDate;
       result = await reqQueryPerson(obj);
       if (result) {
         this.tableData = result;
@@ -209,20 +227,19 @@ export default {
       let formData = new FormData();
       for (var key in this.add) {
         let status = this.add[key];
-        if(status)
-        {
+        if (status) {
           switch (key) {
             case "personIdCard":
-              obj.personIdCard = status
+              obj.personIdCard = status;
               break;
             case "personName":
-              obj.personName = status
+              obj.personName = status;
               break;
             case "personPhone":
-              obj.personPhone = status
+              obj.personPhone = status;
               break;
             default:
-              obj.personDate = status
+              obj.personDate = status;
               break;
           }
         }
@@ -241,28 +258,92 @@ export default {
           type: "warning",
         });
       }
-      console.log("提交新增数据");
       this.dialogVisibleAdd = false;
     },
     // 修改弹框
     editFunc(row) {
-      console.log("修改弹框");
       this.dialogVisibleEdit = true;
+      this._id = row._id;
+      this.$set(this.$data.update, "personIdCard", row.personIdCard);
+      this.$set(this.$data.update, "personName", row.personName);
+      this.$set(this.$data.update, "personPhone", row.personPhone);
+      this.$set(this.$data.update, "personDate", row.personDate);
+      this.row = row;
     },
     // 编辑页面提交
-    editConfirm() {
-      console.log("提交编辑页面");
+    async editConfirm() {
+      let result;
+      const id = this._id;
+      let obj = { id: id };
+      for (var key in this.update) {
+        let status = this.update[key];
+        if (status) {
+          switch (key) {
+            case "personIdCard":
+              obj.personIdCard = status;
+              break;
+            case "personName":
+              obj.personName = status;
+              break;
+            case "personPhone":
+              obj.personPhone = status;
+              break;
+            default:
+              obj.personDate = status;
+              break;
+          }
+        }
+      }
+      result = await reqUpdatePerson(obj);
+      if (result) {
+        this.$message({
+          message: "更新成功",
+          type: "success",
+        });
+        this.query(false);
+      } else {
+        this.$message({
+          message: "更新失败",
+          type: "warning",
+        });
+      }
+      // console.log("提交编辑页面");
       this.dialogVisibleEdit = false;
     },
     // 删除弹框
     delFunc(row) {
-      console.log("删除弹框");
       this.dialogVisibleDle = true;
+      this.row = row;
     },
     // 删除提交
-    delConfirm() {
-      console.log("删除提交");
+    async delConfirm() {
+      let result;
+      const obj = {
+        id: this.row._id,
+      };
+      result = await reqDelPerson(obj);
+      if (result) {
+        this.$message({
+          message: "删除成功",
+          type: "success",
+        });
+        this.query();
+      } else {
+        this.$message({
+          message: result.errorMsg,
+          type: "warning",
+        });
+      }
       this.dialogVisibleDle = false;
+    },
+    //条件查询
+    conditionsQuery() {
+      console.log("按条件查询");
+    //   let result;
+    //   const obj = {
+    //     personIdCard: this.personIdCard,
+    //   };
+    //   result = await reqConditionsQuery(obj);
     },
   },
 };

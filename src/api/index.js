@@ -20,5 +20,8 @@ export const reqLogout = () => ajax(BASE_URL+'/logout')
 export const reqQueryPerson = (obj) => ajax(BASE_URL+'/person_query',obj,'POST')
 //新增来访人员
 export const reqAddPerson = (obj) => ajax(BASE_URL+'/person_add',obj,'POST')
-
+//删除来访人员
+export const reqDelPerson = (obj)=>ajax(BASE_URL+'/person_del',obj,'POST')
+//编辑来访人员
+export const reqUpdatePerson = (obj)=>ajax(BASE_URL+'/person_update',obj,'POST')
 
