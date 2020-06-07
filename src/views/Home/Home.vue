@@ -29,11 +29,13 @@
       "
     >
       <el-table :data="tableData" height="600" style="width: 100%;">
+        <el-table-column type="index" width="100" label="序号">
+        </el-table-column>
         <!-- 身份证 -->
         <el-table-column
           prop="personIdCard"
           label="身份证"
-          width="300"
+          width="250"
         ></el-table-column>
         <!-- 姓名 -->
         <el-table-column
@@ -339,11 +341,11 @@ export default {
     //条件查询
     conditionsQuery() {
       console.log("按条件查询");
-    //   let result;
-    //   const obj = {
-    //     personIdCard: this.personIdCard,
-    //   };
-    //   result = await reqConditionsQuery(obj);
+      //   let result;
+      //   const obj = {
+      //     personIdCard: this.personIdCard,
+      //   };
+      //   result = await reqConditionsQuery(obj);
     },
   },
 };
