@@ -24,4 +24,9 @@ export const reqAddPerson = (obj) => ajax(BASE_URL+'/person_add',obj,'POST')
 export const reqDelPerson = (obj)=>ajax(BASE_URL+'/person_del',obj,'POST')
 //编辑来访人员
 export const reqUpdatePerson = (obj)=>ajax(BASE_URL+'/person_update',obj,'POST')
-
+//查询工作安排表
+export const reqQueryArrange = (obj) =>ajax(BASE_URL+'/arrange_query',obj,'POST')
+//查询员工信息表
+export const reqQueryEmployee = (obj) =>ajax(BASE_URL+'/employee_query',obj,'POST')
+//新增建议反馈
+export const reqAddFeedback = (obj) => ajax(BASE_URL+'/feedback_add',obj,'POST')

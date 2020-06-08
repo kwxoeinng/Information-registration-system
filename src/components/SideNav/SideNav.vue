@@ -6,31 +6,39 @@
           <i class="el-icon-house"></i>
           <span slot="title">来访登记</span>
         </el-menu-item>
-        <el-menu-item index="2" @click="goTo('/announcement')">
+        <el-menu-item index="2">
+          <i class="el-icon-s-order"></i>
+          <span slot="title">预约查询</span>
+        </el-menu-item>
+        <el-menu-item index="3" @click="goTo('/announcement')">
           <i class="el-icon-data-analysis"></i>
           <span slot="title">信息公告</span>
         </el-menu-item>
-        <el-submenu index="3">
+        <el-submenu index="4">
           <template slot="title">
             <i class="el-icon-user"></i>
             <span slot="title">个人中心</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="3-1" @click="goTo('/arrange')">
+            <el-menu-item index="4-1" @click="goTo('/arrange')">
               <i class="el-icon-date"></i>
               <span slot="title">工作安排</span></el-menu-item
             >
-            <el-menu-item index="3-2" @click="goTo('/employeemsg')">
+            <el-menu-item index="4-2" @click="goTo('/employeemsg')">
               <i class="el-icon-coin"></i>
               <span slot="title">员工信息</span>
             </el-menu-item>
-            <el-menu-item index="3-3"
+            <el-menu-item index="4-3" >
+              <i class="el-icon-edit"></i>
+              <span slot="title">工作日记</span>
+            </el-menu-item>
+            <el-menu-item index="4-4"
               ><i class="el-icon-setting"></i>
               <span slot="title">我的信息</span></el-menu-item
             >
           </el-menu-item-group>
         </el-submenu>
-        <el-menu-item index="4">
+        <el-menu-item index="4" @click="goTo('/feedback')">
           <i class="el-icon-message"></i>
           <span slot="title">建议反馈</span>
         </el-menu-item>

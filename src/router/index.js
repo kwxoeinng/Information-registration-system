@@ -8,6 +8,7 @@ import Announcement from '../views/Announcement/Announcement.vue'
 import Arrange from '../views/Arrange/Arrange.vue'
 import EmployeeMsg from '../views/EmployeeMsg/EmployeeMsg.vue'
 import Personal from '../views/Personal/Personal.vue'
+import Feedback from '../views/Feedback/Feedback.vue'
 import Login from '../views/Login/Login.vue'
 import Register from '../views/Register/Register.vue'
 
@@ -58,6 +59,15 @@ const router = new VueRouter({
         {
             path: '/personal',
             component: Personal,
+            meta: {
+                showHeader: true,
+                showSideNav: true,
+                showFooter: true
+            }
+        },
+        {
+            path: '/feedback',
+            component: Feedback,
             meta: {
                 showHeader: true,
                 showSideNav: true,

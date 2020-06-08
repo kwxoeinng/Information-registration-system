@@ -85,7 +85,7 @@ export default {
   data() {
     return {
       loginWay: true, //登录方式
-      name: "123", //用户名
+      name: "11111110204", //用户名
       pwd: "123456", //密码
       // cache: "",//图形验证码
       phone: "", //手机号
@@ -106,7 +106,7 @@ export default {
       if (this.loginWay) {
         //密码登录
         const { name, pwd } = this;
-        if (this.name != "123") {
+        if (this.name != "11111110204") {
           this.$message.error("用户名输入有误，请检查");
           return;
         } else if (this.pwd != "123456") {

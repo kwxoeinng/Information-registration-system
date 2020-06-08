@@ -4,26 +4,26 @@
       <template slot-scope="props">
         <el-form label-position="left" inline class="demo-table-expand">
           <el-form-item label="姓名">
-            <span>{{ props.row.name }}</span>
+            <span>{{ props.row.employeeName }}</span>
           </el-form-item>
           <el-form-item label="性别">
-            <span>{{ props.row.sex }}</span>
+            <span>{{ props.row.employeeSex }}</span>
           </el-form-item>
           <el-form-item label="工号">
-            <span>{{ props.row.id }}</span>
+            <span>{{ props.row.employeeId }}</span>
           </el-form-item>
-          <el-form-item label="小组 ID">
-            <span>{{ props.row.groupId }}</span>
+          <el-form-item label="职称">
+            <span>{{ props.row.employeeTitle }}</span>
           </el-form-item>
-          <el-form-item label="家庭地址">
-            <span>{{ props.row.address }}</span>
+          <el-form-item label="籍贯">
+            <span>{{ props.row.nativePlace }}</span>
           </el-form-item>
         </el-form>
       </template>
     </el-table-column>
-    <el-table-column label="工号" prop="id"> </el-table-column>
-    <el-table-column label="姓名" prop="name"> </el-table-column>
-    <el-table-column label="描述" prop="address"> </el-table-column>
+    <el-table-column label="工号" prop="employeeId"> </el-table-column>
+    <el-table-column label="姓名" prop="employeeName"> </el-table-column>
+    <el-table-column label="职称" prop="nativePlace"> </el-table-column>
   </el-table>
 </template>
 
@@ -43,40 +43,33 @@
 </style>
 
 <script>
+import { reqQueryEmployee } from "../../api";
 export default {
   data() {
     return {
-      tableData: [
-        {
-          id: "11111110107",
-          name: "李纯",
-          address: "银河系地球村油油school",
-          sex: "男",
-          groupId: "10333",
-        },
-        {
-          id: "11111110204",
-          name: "孔孔",
-          address: "银河系地球村油油school",
-          sex: "男",
-          groupId: "10333",
-        },
-        {
-          id: "11111110205",
-          name: "李芬",
-          address: "银河系地球村油油school",
-          sex: "男",
-          groupId: "10333",
-        },
-        {
-          id: "11111110209",
-          name: "罗罗",
-          address: "银河系地球村油油school",
-          sex: "男",
-          groupId: "10333",
-        },
-      ],
+      tableData: [],
     };
+  },
+  created() {
+    this.employeeQuery();
+  },
+  methods: {
+    async employeeQuery() {
+      let result;
+      const obj = {
+        employeeId: this.employeeId,
+        employeeName: this.employeeName,
+        employeeTitle: this.employeeTitle,
+        employeeSex: this.employeeSex,
+        nativePlace: this.nativePlace,
+      };
+      result = await reqQueryEmployee(obj);
+      if (result) {
+        this.tableData = result;
+      } else {
+        this.tableData = [];
+      }
+    },
   },
 };
 </script>
