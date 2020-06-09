@@ -6,7 +6,7 @@
           <i class="el-icon-house"></i>
           <span slot="title">来访登记</span>
         </el-menu-item>
-        <el-menu-item index="2">
+        <el-menu-item index="2"  @click="goTo('/order')">
           <i class="el-icon-s-order"></i>
           <span slot="title">预约查询</span>
         </el-menu-item>
@@ -24,21 +24,17 @@
               <i class="el-icon-date"></i>
               <span slot="title">工作安排</span></el-menu-item
             >
-            <el-menu-item index="4-2" @click="goTo('/employeemsg')">
-              <i class="el-icon-coin"></i>
-              <span slot="title">员工信息</span>
-            </el-menu-item>
-            <el-menu-item index="4-3" >
+            <el-menu-item index="4-2" @click="goTo('/diary')">
               <i class="el-icon-edit"></i>
               <span slot="title">工作日记</span>
             </el-menu-item>
-            <el-menu-item index="4-4"
+            <el-menu-item index="4-3" @click="goTo('/information')"
               ><i class="el-icon-setting"></i>
               <span slot="title">我的信息</span></el-menu-item
             >
           </el-menu-item-group>
         </el-submenu>
-        <el-menu-item index="4" @click="goTo('/feedback')">
+        <el-menu-item index="5" @click="goTo('/feedback')">
           <i class="el-icon-message"></i>
           <span slot="title">建议反馈</span>
         </el-menu-item>

@@ -8,10 +8,11 @@
             <el-input
               placeholder="请输入身份证"
               v-model="personIdCard"
+              clearable
             ></el-input>
           </el-form-item>
         </div>
-        <el-button style="margin-left: 20px;" @click="conditionsQuery"
+        <el-button style="margin-left: 20px;" @click="conditionsQuery(true)"
           >查 询</el-button
         >
         <el-button type="primary" @click="newAdd">录入来访人员</el-button>
@@ -35,25 +36,43 @@
         <el-table-column
           prop="personIdCard"
           label="身份证"
-          width="250"
+          width="200"
         ></el-table-column>
         <!-- 姓名 -->
         <el-table-column
           prop="personName"
           label="姓名"
-          width="250"
+          width="200"
         ></el-table-column>
         <!-- 手机 -->
         <el-table-column
           prop="personPhone"
           label="手机"
-          width="250"
+          width="200"
+        ></el-table-column>
+        <!-- 粤康码 -->
+        <el-table-column
+          prop="personCode"
+          label="粤康码"
+          width="200"
+        ></el-table-column>
+        <!-- 来访原因 -->
+        <el-table-column
+          prop="personReason"
+          label="来访原因"
+          width="300"
         ></el-table-column>
         <!-- 来访时间 -->
         <el-table-column
-          prop="personDate"
+          prop="personArrive"
           label="来访时间"
-          width="250"
+          width="200"
+        ></el-table-column>
+        <!-- 离开时间 -->
+        <el-table-column
+          prop="personLeave"
+          label="离开时间"
+          width="200"
         ></el-table-column>
         <!-- 操作 -->
         <el-table-column fixed="right" label="操作" width="200">
@@ -89,10 +108,28 @@
             <el-input v-model="add.personPhone"></el-input>
           </el-form-item>
         </div>
+        <!-- 粤康码 -->
+        <div style="float: left; width: 100%;">
+          <el-form-item label="粤康码">
+            <el-input v-model="add.personCode"></el-input>
+          </el-form-item>
+        </div>
+        <!-- 来访原因 -->
+        <div style="float: left; width: 100%;">
+          <el-form-item label="来访原因">
+            <el-input v-model="add.personReason"></el-input>
+          </el-form-item>
+        </div>
         <!-- 来访时间 -->
         <div style="float: left; width: 100%;">
           <el-form-item label="来访时间">
-            <el-input v-model="add.personDate"></el-input>
+            <el-input v-model="add.personArrive"></el-input>
+          </el-form-item>
+        </div>
+        <!-- 离开时间 -->
+        <div style="float: left; width: 100%;">
+          <el-form-item label="离开时间">
+            <el-input v-model="add.personLeave"></el-input>
           </el-form-item>
         </div>
       </el-form>
@@ -122,10 +159,28 @@
             <el-input v-model="update.personPhone"></el-input>
           </el-form-item>
         </div>
+        <!-- 粤康码 -->
+        <div style="float: left; width: 100%;">
+          <el-form-item label="粤康码">
+            <el-input v-model="update.personCode"></el-input>
+          </el-form-item>
+        </div>
+        <!-- 来访原因 -->
+        <div style="float: left; width: 100%;">
+          <el-form-item label="来访原因">
+            <el-input v-model="update.personReason"></el-input>
+          </el-form-item>
+        </div>
         <!-- 来访时间 -->
         <div style="float: left; width: 100%;">
           <el-form-item label="来访时间">
-            <el-input v-model="update.personDate"></el-input>
+            <el-input v-model="update.personArrive"></el-input>
+          </el-form-item>
+        </div>
+        <!-- 离开时间 -->
+        <div style="float: left; width: 100%;">
+          <el-form-item label="离开时间">
+            <el-input v-model="update.personLeave"></el-input>
           </el-form-item>
         </div>
       </el-form>
@@ -166,14 +221,20 @@ export default {
         personIdCard: "",
         personName: "",
         personPhone: "",
-        personDate: "",
+        personCode: "",
+        personReason: "",
+        personArrive: "",
+        personLeave: "",
       },
       // 修改页面
       update: {
         personIdCard: "",
         personName: "",
         personPhone: "",
-        personDate: "",
+        personCode: "",
+        personReason: "",
+        personArrive: "",
+        personLeave: "",
       },
       dialogVisibleAdd: false,
       dialogVisibleEdit: false,
@@ -193,7 +254,10 @@ export default {
         personIdCard: this.personIdCard,
         personName: this.personName,
         personPhone: this.personPhone,
-        personDate: this.personDate,
+        personCode: this.personCode,
+        personReason: this.personReason,
+        personArrive: this.personArrive,
+        personLeave: this.personLeave,
       };
       // if (this.personIdCard) obj.personIdCard = this.personIdCard;
       // if (this.personName) obj.personName = this.personName;
@@ -240,8 +304,17 @@ export default {
             case "personPhone":
               obj.personPhone = status;
               break;
+            case "personCode":
+              obj.personCode = status;
+              break;
+            case "personReason":
+              obj.personReason = status;
+              break;
+            case "personArrive":
+              obj.personArrive = status;
+              break;
             default:
-              obj.personDate = status;
+              obj.personLeave = status;
               break;
           }
         }
@@ -254,6 +327,7 @@ export default {
         });
         // 成功后，触发重新查询下数据
         this.query();
+        this.add = {};
       } else {
         this.$message({
           message: result.errorMsg,
@@ -269,7 +343,10 @@ export default {
       this.$set(this.$data.update, "personIdCard", row.personIdCard);
       this.$set(this.$data.update, "personName", row.personName);
       this.$set(this.$data.update, "personPhone", row.personPhone);
-      this.$set(this.$data.update, "personDate", row.personDate);
+      this.$set(this.$data.update, "personCode", row.personCode);
+      this.$set(this.$data.update, "personReason", row.personReason);
+      this.$set(this.$data.update, "personArrive", row.personArrive);
+      this.$set(this.$data.update, "personLeave", row.personLeave);
       this.row = row;
     },
     // 编辑页面提交
@@ -290,8 +367,17 @@ export default {
             case "personPhone":
               obj.personPhone = status;
               break;
+            case "personCode":
+              obj.personCode = status;
+              break;
+            case "personReason":
+              obj.personReason = status;
+              break;
+            case "personArrive":
+              obj.personArrive = status;
+              break;
             default:
-              obj.personDate = status;
+              obj.personLeave = status;
               break;
           }
         }
@@ -339,13 +425,21 @@ export default {
       this.dialogVisibleDle = false;
     },
     //条件查询
-    conditionsQuery() {
-      console.log("按条件查询");
-      //   let result;
-      //   const obj = {
-      //     personIdCard: this.personIdCard,
-      //   };
-      //   result = await reqConditionsQuery(obj);
+    async conditionsQuery() {
+      let result;
+      const obj = {
+        personIdCard: this.personIdCard,
+      };
+      result = await reqConditionsQuery(obj);
+      if (result) {
+        if (this.personIdCard == "") {
+          this.query();
+        } else {
+          this.tableData = result;
+        }
+      } else {
+        this.tableData = [];
+      }
     },
   },
 };
