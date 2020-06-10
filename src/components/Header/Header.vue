@@ -9,9 +9,10 @@
       <!-- 头像 -->
       <div class="avatarLoginBox">
         <div class="avatarLogin">
-          <el-avatar
+          <!-- <el-avatar
             src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-          ></el-avatar>
+          ></el-avatar> -->
+          <el-avatar src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
         </div>
       </div>
       <!-- 用户名、手机号 -->

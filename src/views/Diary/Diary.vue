@@ -27,10 +27,16 @@
     <el-dialog title="工作日记" :visible.sync="dialogDiary">
       <el-form :model="add">
         <el-form-item label="日期" :label-width="formLabelWidth">
-          <el-input v-model="add.diaryDate" style="width:300px"></el-input>
+          <el-date-picker
+            v-model="add.diaryDate"
+            type="datetime"
+            placeholder="选择来访时间"
+            style="width:300px"
+          >
+          </el-date-picker>
         </el-form-item>
         <el-form-item label="工号：" :label-width="formLabelWidth"
-          >11111110204
+          >{{ userInfo.name }}
         </el-form-item>
         <el-form-item
           ><el-input
@@ -51,8 +57,12 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import { reqQueryDiary } from "../../api";
 export default {
+  computed: {
+    ...mapState(["userInfo"]),
+  },
   data() {
     return {
       diaryData: [],
@@ -75,7 +85,6 @@ export default {
         diaryContent: this.diaryContent,
       };
       result = await reqQueryDiary(obj);
-      console.log(result);
       if (result) {
         this.diaryData = result;
       } else {

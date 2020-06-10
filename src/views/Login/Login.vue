@@ -1,29 +1,33 @@
 <template>
   <div class="box">
     <!-- 选择登录方式 -->
-    <div class="loginHeader">
+    <!-- <div class="loginHeader">
       <el-menu default-active="1" class="el-menu-demo" mode="horizontal">
         <el-menu-item index="1" @click="loginWay = true">密码登录</el-menu-item>
         <el-menu-item index="2" @click="loginWay = false"
           >手机登录</el-menu-item
         >
       </el-menu>
-    </div>
-    <form @submit.prevent="login">
+    </div> -->
+    <el-form @submit.prevent="login">
       <!-- 密码登录 -->
-      <div v-show="loginWay">
+      <div>
         <!-- 用户名 -->
-        <div class="inputContainer">
-          <el-input v-model="name" placeholder="请输入用户名"></el-input>
-        </div>
+        <el-form-item class="inputContainer">
+          <el-input
+            v-model="name"
+            placeholder="请输入工号"
+            maxlength="11"
+          ></el-input>
+        </el-form-item>
         <!-- 密码 -->
-        <div class="inputContainer">
+        <el-form-item class="inputContainer">
           <el-input
             placeholder="请输入密码"
             v-model="pwd"
             show-password
           ></el-input>
-        </div>
+        </el-form-item>
         <div class="loginBtn">
           <el-button
             style="width:100%"
@@ -36,8 +40,7 @@
         </div>
       </div>
       <!-- 短信登录 -->
-      <div v-show="!loginWay">
-        <!-- 手机号 -->
+      <!-- <div v-show="!loginWay">
         <div class="inputContainer">
           <div class="loginPhone">
             <div class="phoneInput">
@@ -57,7 +60,6 @@
             >
           </div>
         </div>
-        <!-- 验证码 -->
         <div class="inputContainer">
           <el-input
             style="float:left"
@@ -74,8 +76,8 @@
             >登录</el-button
           >
         </div>
-      </div>
-    </form>
+      </div> -->
+    </el-form>
   </div>
 </template>
 <script>
@@ -84,9 +86,9 @@ import { reqSendCode, reqSmsLogin, reqPwdLogin } from "../../api";
 export default {
   data() {
     return {
-      loginWay: true, //登录方式
-      name: "11111110204", //用户名
-      pwd: "123456", //密码
+      // loginWay: true, //登录方式
+      name: "", //用户名
+      pwd: "", //密码
       // cache: "",//图形验证码
       phone: "", //手机号
       code: "", //短信验证码
@@ -103,31 +105,31 @@ export default {
     async login(path) {
       let result;
       // 前端验证
-      if (this.loginWay) {
-        //密码登录
-        const { name, pwd } = this;
-        if (this.name != "11111110204") {
-          this.$message.error("用户名输入有误，请检查");
-          return;
-        } else if (this.pwd != "123456") {
-          this.$message.error("密码输入有误，请检查");
-          return;
-        }
-        // 发送ajax请求密码登陆
-        result = await reqPwdLogin({ name, pwd });
-      } else {
-        //短信登录
-        const { rightPhone, phone, code } = this;
-        if (!this.rightPhone) {
-          this.$message.error("手机号输入有误，请检查");
-          return;
-        } else if (!/^\d{6}$/.test(code)) {
-          this.$message.error("验证码输入有误，请检查");
-          return;
-        }
-        // 发送ajax请求短信登陆
-        result = await reqSmsLogin(phone, code);
+      // if (this.loginWay) {
+      //密码登录
+      const { name, pwd } = this;
+      if (!this.name) {
+        this.$message.error("用户名不能为空，请检查");
+        return;
+      } else if (!this.pwd) {
+        this.$message.error("密码不能为，请检查");
+        return;
       }
+      // 发送ajax请求密码登陆
+      result = await reqPwdLogin({ name, pwd });
+      // } else {
+      //   //短信登录
+      //   const { rightPhone, phone, code } = this;
+      //   if (!this.rightPhone) {
+      //     this.$message.error("手机号输入有误，请检查");
+      //     return;
+      //   } else if (!/^\d{6}$/.test(code)) {
+      //     this.$message.error("验证码输入有误，请检查");
+      //     return;
+      //   }
+      //   // 发送ajax请求短信登陆
+      //   result = await reqSmsLogin(phone, code);
+      // }
       // 停止计时
       if (this.computeTime) {
         this.computeTime = 0;

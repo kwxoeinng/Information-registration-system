@@ -17,11 +17,14 @@
           label="评价一下所担任的工作"
           :label-width="formLabelWidth"
         >
-          <el-input v-model="add.feedbackRate" placeholder="请输入内容"></el-input>
+          <el-input
+            v-model="add.feedbackRate"
+            placeholder="请输入内容"
+          ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="cancel()">取 消</el-button>
         <el-button type="primary" @click="addFeedack('add')">确 定</el-button>
       </div>
     </el-dialog>
@@ -74,6 +77,11 @@ export default {
         });
       }
       this.dialogFormVisible = false;
+    },
+    cancel() {
+      this.$message("已取消，现返回到首页");
+      this.dialogFormVisible = false;
+      this.$router.replace("/home");
     },
   },
 };

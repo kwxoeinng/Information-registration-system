@@ -9,6 +9,8 @@
               placeholder="请输入身份证"
               v-model="personIdCard"
               clearable
+              maxlength="18"
+              show-word-limit
             ></el-input>
           </el-form-item>
         </div>
@@ -66,13 +68,15 @@
         <el-table-column
           prop="personArrive"
           label="来访时间"
-          width="200"
+          width="300"
+          sortable
         ></el-table-column>
         <!-- 离开时间 -->
         <el-table-column
           prop="personLeave"
           label="离开时间"
-          width="200"
+          width="300"
+          sortable
         ></el-table-column>
         <!-- 操作 -->
         <el-table-column fixed="right" label="操作" width="200">
@@ -89,22 +93,26 @@
     </div>
     <!-- 新增对话框 -->
     <el-dialog title="新增" :visible.sync="dialogVisibleAdd" width="30%">
-      <el-form :model="add" ref="add" label-width="80px">
+      <el-form :model="add" ref="add" label-width="80px" :rules="rules">
         <!-- 身份证 -->
         <div style="float: left; width: 100%;">
-          <el-form-item label="身份证">
-            <el-input v-model="add.personIdCard"></el-input>
+          <el-form-item label="身份证" prop="personIdCard">
+            <el-input
+              v-model="add.personIdCard"
+              maxlength="18"
+              show-word-limit
+            ></el-input>
           </el-form-item>
         </div>
         <!-- 姓名 -->
         <div style="float: left; width: 100%;">
-          <el-form-item label="姓名">
+          <el-form-item label="姓名" prop="personName">
             <el-input v-model="add.personName"></el-input>
           </el-form-item>
         </div>
         <!-- 手机 -->
         <div style="float: left; width: 100%;">
-          <el-form-item label="手机">
+          <el-form-item label="手机" prop="personPhone">
             <el-input v-model="add.personPhone"></el-input>
           </el-form-item>
         </div>
@@ -123,13 +131,24 @@
         <!-- 来访时间 -->
         <div style="float: left; width: 100%;">
           <el-form-item label="来访时间">
-            <el-input v-model="add.personArrive"></el-input>
+            <el-date-picker
+              v-model="add.personArrive"
+              type="datetime"
+              placeholder="选择来访时间"
+            >
+            </el-date-picker>
           </el-form-item>
         </div>
         <!-- 离开时间 -->
         <div style="float: left; width: 100%;">
           <el-form-item label="离开时间">
-            <el-input v-model="add.personLeave"></el-input>
+            <el-date-picker
+              v-model="add.personLeave"
+              type="datetime"
+              placeholder="选择离开时间"
+              :disabled="true"
+            >
+            </el-date-picker>
           </el-form-item>
         </div>
       </el-form>
@@ -174,13 +193,24 @@
         <!-- 来访时间 -->
         <div style="float: left; width: 100%;">
           <el-form-item label="来访时间">
-            <el-input v-model="update.personArrive"></el-input>
+            <el-date-picker
+              v-model="update.personArrive"
+              type="datetime"
+              placeholder="选择来访时间"
+              :disabled="true"
+            >
+            </el-date-picker>
           </el-form-item>
         </div>
         <!-- 离开时间 -->
         <div style="float: left; width: 100%;">
           <el-form-item label="离开时间">
-            <el-input v-model="update.personLeave"></el-input>
+            <el-date-picker
+              v-model="update.personLeave"
+              type="datetime"
+              placeholder="选择离开时间"
+            >
+            </el-date-picker>
           </el-form-item>
         </div>
       </el-form>
@@ -216,6 +246,29 @@ export default {
       formLabelWidth: "120px",
       personIdCard: "",
       tableData: [],
+      rules: {
+        personIdCard: [
+          { required: true, message: "身份证不能为空", trigger: "blur" },
+          {
+            min: 18,
+            max: 18,
+            message: "请输入正确长度的身份证",
+            trigger: "blur",
+          },
+        ],
+        personName: [
+          { required: true, message: "姓名不能为空", trigger: "blur" },
+        ],
+        personPhone: [
+          { required: true, message: "手机不能为空", trigger: "blur" },
+          {
+            min: 11,
+            max: 11,
+            message: "请输入正确的手机",
+            trigger: "blur",
+          },
+        ],
+      },
       // 新增页面
       add: {
         personIdCard: "",
@@ -243,6 +296,7 @@ export default {
       _id: "",
     };
   },
+
   created() {
     this.query();
   },

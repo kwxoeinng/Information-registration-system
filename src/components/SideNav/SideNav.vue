@@ -2,7 +2,7 @@
   <div>
     <el-col>
       <el-menu default-active="1" class="el-menu-vertical-demo">
-        <el-menu-item index="1" @click="goTo('/home')">
+        <el-menu-item :index="label.id" @click="goTo('/home')">
           <i class="el-icon-house"></i>
           <span slot="title">来访登记</span>
         </el-menu-item>
