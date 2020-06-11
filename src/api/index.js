@@ -7,11 +7,22 @@ import ajax from './ajax'
 const BASE_URL = '/api'
 
 // 用户名密码登陆
-export const reqPwdLogin = ({name,pwd}) => ajax(BASE_URL + '/login_pwd', {name,pwd}, 'POST')
+export const reqPwdLogin = ({
+    name,
+    pwd
+}) => ajax(BASE_URL + '/login_pwd', {
+    name,
+    pwd
+}, 'POST')
 // 发送短信验证码
-export const reqSendCode = (phone) => ajax(BASE_URL + '/sendcode', {phone})
+export const reqSendCode = (phone) => ajax(BASE_URL + '/sendcode', {
+    phone
+})
 // 手机号验证码登陆
-export const reqSmsLogin = (phone, code) => ajax(BASE_URL + '/login_sms', {phone,code}, 'POST')
+export const reqSmsLogin = (phone, code) => ajax(BASE_URL + '/login_sms', {
+    phone,
+    code
+}, 'POST')
 // 根据会话获取用户信息
 export const reqUserInfo = () => ajax(BASE_URL + '/userinfo')
 // 用户登出
@@ -36,3 +47,11 @@ export const reqQueryMine = (obj) => ajax(BASE_URL + '/mine_query', obj, 'POST')
 export const reqQueryDiary = (obj) => ajax(BASE_URL + '/diary_query', obj, 'POST')
 //查询预约数据
 export const reqQueryOrder = (obj) => ajax(BASE_URL + '/order_query', obj, 'POST')
+//查询公告
+export const reqQueryAnnouncement = (obj) => ajax(BASE_URL + '/announcement_query', obj, 'POST')
+//发布公告
+export const reqAddAnnouncement = (obj) => ajax(BASE_URL + '/announcement_add', obj, 'POST')
+//写日记
+export const reqAddDiary = (obj) => ajax(BASE_URL + '/diary_add', obj, 'POST')
+//健康打卡
+export const reqAddHealth = (obj) => ajax(BASE_URL + '/health_add', obj, 'POST')

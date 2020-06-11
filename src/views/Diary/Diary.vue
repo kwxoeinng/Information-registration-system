@@ -25,19 +25,20 @@
     </div>
     <!-- 工作日记 -->
     <el-dialog title="工作日记" :visible.sync="dialogDiary">
-      <el-form :model="add">
+      <el-form :model="add" ref="add">
         <el-form-item label="日期" :label-width="formLabelWidth">
           <el-date-picker
             v-model="add.diaryDate"
-            type="datetime"
-            placeholder="选择来访时间"
-            style="width:300px"
+            type="date"
+            placeholder="选择日期"
+            format="yyyy 年 MM 月 dd 日"
+            value-format="yyyy-MM-dd"
           >
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="工号：" :label-width="formLabelWidth"
-          >{{ userInfo.name }}
-        </el-form-item>
+        <div class="textStyle" style="margin:10px 50px">
+          工号：{{ (add.mineID = userInfo.name) }}
+        </div>
         <el-form-item
           ><el-input
             type="textarea"
@@ -51,14 +52,14 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogDiary = false">取 消</el-button>
-        <el-button type="primary" @click="dialogDiary = false">确 定</el-button>
+        <el-button type="primary" @click="diaryConfirm('add')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
 import { mapState } from "vuex";
-import { reqQueryDiary } from "../../api";
+import { reqQueryDiary, reqAddDiary } from "../../api";
 export default {
   computed: {
     ...mapState(["userInfo"]),
@@ -67,6 +68,7 @@ export default {
     return {
       diaryData: [],
       add: {
+        mineID: "",
         diaryDate: "",
         diaryContent: "",
       },
@@ -91,7 +93,49 @@ export default {
         this.diaryData = [];
       }
     },
+    async diaryConfirm() {
+      let result;
+      let obj = {};
+      let formData = new FormData();
+      for (var key in this.add) {
+        let status = this.add[key];
+        if (status) {
+          switch (key) {
+            case "mineID":
+              obj.mineID = status;
+              break;
+            case "diaryDate":
+              obj.diaryDate = status;
+              break;
+            default:
+              obj.diaryContent = status;
+              break;
+          }
+        }
+      }
+      result = await reqAddDiary(obj);
+      if (result) {
+        this.$message({
+          message: "新增成功",
+          type: "success",
+        });
+        // 成功后，触发重新查询下数据
+        this.diaryQuery();
+        this.add = {};
+      } else {
+        this.$message({
+          message: result.errorMsg,
+          type: "warning",
+        });
+      }
+      this.dialogDiary = false;
+    },
   },
 };
 </script>
-<style></style>
+<style>
+.textStyle {
+  font-size: 14px;
+  color: #909399;
+}
+</style>

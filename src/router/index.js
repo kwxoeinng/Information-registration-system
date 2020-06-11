@@ -6,6 +6,7 @@ import {
 
 //组件
 import Home from '../views/Home/Home.vue'
+import Health from '../views/Health/Health.vue'
 import Order from '../views/Order/Order.vue'
 import Announcement from '../views/Announcement/Announcement.vue'
 import Arrange from '../views/Arrange/Arrange.vue'
@@ -22,7 +23,16 @@ const router = new VueRouter({
             path: '/',
             redirect: '/login',
         },
-        // 首页
+        //健康打卡
+        {
+            path: '/health',
+            name: 'health',
+            component: Health,
+            meta: {
+                showHeader: true,
+            },
+        },
+        //首页
         {
             path: '/home',
             name: 'home',
@@ -43,7 +53,6 @@ const router = new VueRouter({
                 showHeader: true,
                 showSideNav: true,
                 showFooter: true,
-                requireAuth: true
             },
         },
         // 公告
@@ -55,7 +64,6 @@ const router = new VueRouter({
                 showHeader: true,
                 showSideNav: true,
                 showFooter: true,
-                requireAuth: true
             },
         },
         // 工作安排
@@ -67,7 +75,6 @@ const router = new VueRouter({
                 showHeader: true,
                 showSideNav: true,
                 showFooter: true,
-                requireAuth: true
             },
         },
         // 工作日记
@@ -79,7 +86,6 @@ const router = new VueRouter({
                 showHeader: true,
                 showSideNav: true,
                 showFooter: true,
-                requireAuth: true
             },
         },
         // 我的信息
@@ -91,7 +97,6 @@ const router = new VueRouter({
                 showHeader: true,
                 showSideNav: true,
                 showFooter: true,
-                requireAuth: true
             }
         },
         // 意见反馈
@@ -103,7 +108,6 @@ const router = new VueRouter({
                 showHeader: true,
                 showSideNav: true,
                 showFooter: true,
-                requireAuth: true
             }
         },
         // 登录

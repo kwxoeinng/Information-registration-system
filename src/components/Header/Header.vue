@@ -9,10 +9,9 @@
       <!-- 头像 -->
       <div class="avatarLoginBox">
         <div class="avatarLogin">
-          <!-- <el-avatar
+          <el-avatar
             src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-          ></el-avatar> -->
-          <el-avatar src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+          ></el-avatar>
         </div>
       </div>
       <!-- 用户名、手机号 -->
@@ -21,7 +20,14 @@
           {{ userInfo.name }}
         </div>
         <div class="headerLoginText">
-          {{ userInfo.phone || "暂无绑定手机号" }}
+          <!-- {{ userInfo.phone || "暂无绑定手机号" }} -->
+          <el-link
+            :underline="false"
+            style="font-size:11px;color:#409EFF"
+            icon="el-icon-edit"
+            @click="goTo('/health')"
+            >健康打卡</el-link
+          >
         </div>
       </div>
       <!-- 退出登录 -->
@@ -41,6 +47,9 @@ export default {
     ...mapState(["userInfo"]),
   },
   methods: {
+    goTo(path) {
+      this.$router.replace(path);
+    },
     loginout() {
       this.$confirm("确认退出登录吗?", "提示", {
         confirmButtonText: "确定",

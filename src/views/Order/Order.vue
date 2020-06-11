@@ -3,15 +3,15 @@
     <!-- 表格 -->
     <div
       style="
-        width: 90%;
-        height: 600px;
+        width: 80%;
+        height: 680px;
         margin: 0 auto;
         border: 1px solid #ebebeb;
         border-radius: 3px;
         overflow: hidden;
       "
     >
-      <el-table :data="tableData" height="600" style="width: 100%;">
+      <el-table :data="tableData" height="680">
         <el-table-column type="index" width="100" label="序号">
         </el-table-column>
         <!-- 身份证 -->
@@ -36,7 +36,7 @@
         <el-table-column
           prop="orderReason"
           label="来访原因"
-          width="300"
+          width="280"
         ></el-table-column>
         <!-- 来访时间 -->
         <el-table-column
