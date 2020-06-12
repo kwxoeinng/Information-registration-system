@@ -8,7 +8,7 @@
         </el-menu-item>
         <el-menu-item index="2" @click="goTo('/order')">
           <i class="el-icon-s-order"></i>
-          <span slot="title">预约查询</span>
+          <span slot="title">线上预约</span>
         </el-menu-item>
         <el-menu-item index="3" @click="goTo('/announcement')">
           <i class="el-icon-data-analysis"></i>

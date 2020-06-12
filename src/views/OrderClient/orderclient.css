@@ -1,0 +1,56 @@
+.clientBox {
+    display: flex;
+    flex-direction: row;
+  }
+  .clientAnnouncement {
+    width: 1200px;
+    height: 750px;
+    text-align: center;
+  }
+  .clientTitle {
+    font-size: 20px;
+    font-family: "Microsoft YaHei";
+    color: #303133;
+    font-weight: bold;
+  }
+  .clientDate {
+    font-size: 12px;
+    font-family: "Hiragino Sans GB";
+    color: #909399;
+  }
+  .clientContent {
+    width: 800px;
+    height: 250px;
+    margin: 15px auto;
+  }
+  .contentText {
+    color: #606266;
+    font-size: 14px;
+    font-family: "PingFang SC";
+  }
+  .clientIssuer {
+    position: relative;
+    float: right;
+    margin-top: 30px;
+    right: 10px;
+    color: #606266;
+    font-size: 13px;
+    font-family: "Hiragino Sans GB";
+  }
+  .orderBox {
+    width: 400px;
+    height: 450px;
+    margin: auto;
+  }
+  .loginPhone {
+    width: 300px;
+    height: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    text-align: center;
+  }
+  .phoneInput {
+    width: 230px;
+    height: 40px;
+  }

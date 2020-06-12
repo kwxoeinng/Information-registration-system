@@ -44,10 +44,12 @@
   width: 300px;
   height: 20px;
   margin: 0 auto;
+  margin-top: 60px;
 }
 .loginBtn {
   position: absolute;
   width: 300px;
   height: 40px;
   margin-left: 150px;
+  margin-top: 70px;
 }

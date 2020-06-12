@@ -14,7 +14,7 @@ import Diary from '../views/Diary/Diary.vue'
 import Information from '../views/Information/Information.vue'
 import Feedback from '../views/Feedback/Feedback.vue'
 import Login from '../views/Login/Login.vue'
-import Register from '../views/Register/Register.vue'
+import OrderClient from '../views/OrderClient/OrderClient.vue'
 
 Vue.use(VueRouter)
 const router = new VueRouter({
@@ -22,6 +22,10 @@ const router = new VueRouter({
     routes: [{
             path: '/',
             redirect: '/login',
+        },
+        {
+            path: '/orderclient',
+            component: OrderClient
         },
         //健康打卡
         {
@@ -116,11 +120,6 @@ const router = new VueRouter({
             name: 'login',
             component: Login,
         },
-        //注册
-        {
-            path: '/register',
-            component: Register,
-        }
     ],
     fallback: true
 })

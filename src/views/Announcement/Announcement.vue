@@ -19,13 +19,15 @@
               type="date"
               placeholder="选择日期"
               size="mini"
-              style="width:150px"
+              style="width:170px"
+              format="yyyy 年 MM 月 dd 日"
+              value-format="yyyy-MM-dd"
             >
             </el-date-picker>
           </el-form-item>
           <!-- 发布人 -->
           <div class="textStyle" style="margin:10px 50px">
-            发布人：{{ add.releaseIssuer }}
+            发布人：{{ (add.releaseIssuer = releaseIssuer) }}
           </div>
         </div>
         <!-- 公告内容 -->
@@ -75,6 +77,7 @@ import { reqQueryAnnouncement, reqAddAnnouncement } from "../../api";
 export default {
   data() {
     return {
+      releaseIssuer: "门卫处",
       add: {
         releaseTitle: "",
         releaseTime: "",
