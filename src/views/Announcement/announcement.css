@@ -3,7 +3,7 @@
   flex-direction: row;
 }
 .releaseBox {
-  width: 1000px;
+  width: 900px;
   height: 680px;
   border-right: 1px solid #c0c4cc;
 }
@@ -20,10 +20,33 @@
   margin: 20px;
 }
 .queryBox {
-  width: 500px;
+  width: 600px;
   height: 680px;
 }
 .textStyle {
   font-size: 14px;
   color: #909399;
+}
+.releaseTitle {
+  font-size: 20px;
+  font-family: "Microsoft YaHei";
+  color: #303133;
+  font-weight: bold;
+}
+.msgContainer {
+  display: flex;
+  flex-direction: row;
+}
+.msgText {
+  font-size: 12px;
+  font-family: "Hiragino Sans GB";
+  color: #909399;
+  margin: 10px 20px 10px 0;
+}
+.releaseContent {
+  color: #606266;
+  font-size: 14px;
+  font-family: "PingFang SC";
+  margin-bottom: 10px;
+  line-height: 2;
 }

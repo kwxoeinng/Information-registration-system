@@ -1,6 +1,6 @@
 <template>
   <div style="width:1201px;height:600px;margin:0 auto">
-    <el-table :data="tableData" border>
+    <el-table :data="tableData" border v-loading="loading">
       <el-table-column
         type="index"
         :index="indexMethod"
@@ -27,11 +27,13 @@
 </template>
 
 <script>
+import "./arrange.css";
 import { reqQueryArrange } from "../../api";
 export default {
   data() {
     return {
       tableData: [],
+      loading: true,
     };
   },
   created() {
@@ -55,6 +57,7 @@ export default {
       result = await reqQueryArrange(obj);
       if (result) {
         this.tableData = result;
+        this.loading = false;
       } else {
         this.tableData = [];
       }

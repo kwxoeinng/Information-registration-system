@@ -1,5 +1,11 @@
 <template>
-  <el-dialog title="健康打卡" :visible.sync="dialogFormVisible">
+  <el-dialog
+    title="健康打卡"
+    v-if="dialogFormVisible"
+    :visible.sync="dialogFormVisible"
+    :showClose="showClo"
+    :close-on-click-modal="false"
+  >
     <el-form :model="add" ref="add">
       <el-form-item
         label="工号："
@@ -69,6 +75,7 @@ export default {
         habitation: "",
       },
       formLabelWidth: "120px",
+      showClo: false,
     };
   },
   methods: {

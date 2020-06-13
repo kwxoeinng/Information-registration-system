@@ -1,5 +1,5 @@
 <template>
-  <div id="list-container" style="margin: 20px auto;">
+  <div id="list-container" style="margin: 20px auto;" v-loading="loading">
     <!-- 查询、录入来访人员 -->
     <div style="width: 100%; overflow: hidden;">
       <el-form ref="form" label-width="80px">
@@ -31,7 +31,12 @@
         overflow: hidden;
       "
     >
-      <el-table :data="tableData" height="600" style="width: 100%;">
+      <el-table
+        :data="tableData"
+        height="600"
+        style="width: 100%;"
+        v-loading="loading"
+      >
         <el-table-column type="index" width="100" label="序号">
         </el-table-column>
         <!-- 身份证 -->
@@ -132,9 +137,12 @@
         <div style="float: left; width: 100%;">
           <el-form-item label="来访时间">
             <el-date-picker
+              style="width:300px"
               v-model="add.personArrive"
               type="datetime"
               placeholder="选择来访时间"
+              format="yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒"
+              value-format="yyyy-MM-dd HH:mm:ss"
             >
             </el-date-picker>
           </el-form-item>
@@ -143,6 +151,7 @@
         <div style="float: left; width: 100%;">
           <el-form-item label="离开时间">
             <el-date-picker
+              style="width:300px"
               v-model="add.personLeave"
               type="datetime"
               placeholder="选择离开时间"
@@ -194,6 +203,7 @@
         <div style="float: left; width: 100%;">
           <el-form-item label="来访时间">
             <el-date-picker
+              style="width:300px"
               v-model="update.personArrive"
               type="datetime"
               placeholder="选择来访时间"
@@ -206,9 +216,12 @@
         <div style="float: left; width: 100%;">
           <el-form-item label="离开时间">
             <el-date-picker
+              style="width:300px"
               v-model="update.personLeave"
               type="datetime"
               placeholder="选择离开时间"
+              format="yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒"
+              value-format="yyyy-MM-dd HH:mm:ss"
             >
             </el-date-picker>
           </el-form-item>
@@ -294,6 +307,7 @@ export default {
       dialogVisibleDle: false,
       row: null,
       _id: "",
+      loading: true,
     };
   },
 
@@ -326,6 +340,7 @@ export default {
             type: "success",
           });
         }
+        this.loading = false;
       } else {
         if (isquery) {
           this.$message({

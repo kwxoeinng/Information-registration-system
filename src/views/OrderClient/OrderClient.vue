@@ -1,87 +1,135 @@
 <template>
-  <div class="clientBox">
-    <div class="clientAnnouncement">
-      <div style="width:500px;height:40px;font-size:25px;">
-        近期公告(点击具体标题进行查看)
-      </div>
-      <el-collapse accordion>
-        <el-collapse-item
-          v-for="(item, index) in clientData"
-          :key="item.releaseTitle"
-          :title="item.releaseTitle"
-          :name="index"
-        >
-          <div class="clientTitle" prop="releaseTitle">
-            {{ item.releaseTitle }}
-          </div>
-          <div class="clientDate" prop="releaseTime">
-            {{ item.releaseTime }}
-          </div>
-          <div class="clientContent">
-            <div class="contentText" prop="releaseContent">
-              {{ item.releaseContent }}
-            </div>
-            <div class="clientIssuer" prop="releaseIssuer">
-              {{ item.releaseIssuer }}
-            </div>
-          </div>
-        </el-collapse-item>
-      </el-collapse>
-    </div>
-    <div class="orderBox">
-      <el-form :model="add" ref="add" label-width="80px">
-        <el-form-item label="身份证">
-          <el-input v-model="add.orderIdCard"></el-input>
-        </el-form-item>
-        <el-form-item label="姓名">
-          <el-input v-model="add.orderName"></el-input>
-        </el-form-item>
-        <el-form-item label="来访原因">
-          <el-input v-model="add.orderReason"></el-input>
-        </el-form-item>
-        <el-form-item label="来访日期">
-          <el-input v-model="add.orderArrive"></el-input>
-        </el-form-item>
-        <el-form-item label="手机">
-          <div class="loginPhone">
-            <div class="phoneInput">
-              <el-input type="tel" v-model="add.orderPhone"></el-input>
-            </div>
-            <el-link
-              :disabled="!rightPhone || codeBtnshow"
-              :underline="false"
-              @click="getCode"
-              >{{
-                computeTime > 0 ? `还剩(${computeTime}s)` : `获取验证码`
-              }}</el-link
-            >
-          </div>
-        </el-form-item>
-      </el-form>
-      <el-input
-        style="float:left;width:230px;margin-left:80px;"
-        v-model="code"
-        placeholder="请输入验证码"
-      ></el-input>
-      <div class="clientBox">
+  <div>
+    <!-- 头部 -->
+    <div class="clientHeader">
+      <p class="headerText">来访人员登记预约</p>
+      <div>
         <el-button
-          style="position: absolute;right:270px;margin-top:70px"
           type="primary"
-          round
-          @click="checkCode()"
-          :disabled="phoneBtnshow"
-          >手机验证</el-button
-        >
-        <el-button
-          style="position: absolute;right:150px;margin-top:70px"
-          type="primary"
-          round
-          @click="orderConfirm('add')"
-          :disabled="orderBtnshow"
-          >预约</el-button
-        >
+          icon="el-icon-thumb"
+          circle
+          style="position: relative;top:30px;left:30px;"
+          @click="drawer = true"
+        ></el-button>
       </div>
     </div>
+    <!-- 轮播图 -->
+    <div>
+      <!-- <el-carousel
+        style="height:400px;width:900px;margin:0 auto;"
+        height="400px"
+        direction="vertical"
+        :autoplay="false"
+      >
+        <el-carousel-item v-for="item in imagesbox" :key="item.id">
+          <el-image :src="item.idView"></el-image>
+        </el-carousel-item>
+      </el-carousel> -->
+      <el-carousel
+        :interval="4000"
+        type="card"
+        height="300px"
+        style="height:331px;width:1150px;margin:0 auto;"
+      >
+        <el-carousel-item v-for="item in imagesbox" :key="item.id">
+          <el-image :src="item.idView"></el-image>
+        </el-carousel-item>
+      </el-carousel>
+    </div>
+    <!-- 公告 -->
+    <div class="clientBox">
+      <!-- 公告 -->
+      <div class="clientAnnouncement">
+        <div style="width:100px;height:40px;font-size:24px;">
+          近期公告
+        </div>
+        <el-collapse accordion>
+          <el-collapse-item
+            v-for="(item, index) in clientData"
+            :key="item.releaseTitle"
+            :title="item.releaseTitle"
+            :name="index"
+          >
+            <div class="clientTitle" prop="releaseTitle">
+              {{ item.releaseTitle }}
+            </div>
+            <div class="clientDate" prop="releaseTime">
+              {{ item.releaseTime }}
+            </div>
+            <div class="clientContent">
+              <div class="contentText" prop="releaseContent">
+                {{ item.releaseContent }}
+              </div>
+              <div class="clientIssuer" prop="releaseIssuer">
+                {{ item.releaseIssuer }}
+              </div>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+    </div>
+    <!-- 预约抽屉 -->
+    <el-drawer title="来访预约" :visible.sync="drawer" :with-header="false">
+      <!-- 预约 -->
+      <div class="orderBox">
+        <div class="orderText">预约申请</div>
+        <!-- 表单 -->
+        <el-form :model="add" ref="add" label-width="80px">
+          <el-form-item label="身份证">
+            <el-input v-model="add.orderIdCard"></el-input>
+          </el-form-item>
+          <el-form-item label="姓名">
+            <el-input v-model="add.orderName"></el-input>
+          </el-form-item>
+          <el-form-item label="来访原因">
+            <el-input v-model="add.orderReason"></el-input>
+          </el-form-item>
+          <el-form-item label="来访日期">
+            <el-input v-model="add.orderArrive"></el-input>
+          </el-form-item>
+          <el-form-item label="手机">
+            <div class="loginPhone">
+              <div class="phoneInput">
+                <el-input type="tel" v-model="add.orderPhone"></el-input>
+              </div>
+              <el-link
+                :disabled="!rightPhone || codeBtnshow"
+                :underline="false"
+                @click="getCode"
+                >{{
+                  computeTime > 0 ? `还剩(${computeTime}s)` : `获取验证码`
+                }}</el-link
+              >
+            </div>
+          </el-form-item>
+        </el-form>
+        <!-- 验证码 -->
+        <el-input
+          style="float:left;width:230px;margin-left:80px;"
+          v-model="code"
+          placeholder="请输入验证码"
+        ></el-input>
+        <!-- 按钮 -->
+        <div class="clientBox">
+          <el-button
+            style="position: absolute;right:270px;margin-top:70px"
+            type="primary"
+            round
+            @click="checkCode()"
+            :disabled="phoneBtnshow"
+            >手机验证</el-button
+          >
+          <el-button
+            style="position: absolute;right:150px;margin-top:70px"
+            type="primary"
+            round
+            @click="orderConfirm('add')"
+            :disabled="orderBtnshow"
+            >预约</el-button
+          >
+        </div>
+      </div>
+    </el-drawer>
   </div>
 </template>
 <script>
@@ -108,6 +156,12 @@ export default {
       orderBtnshow: true,
       phoneBtnshow: false,
       codeBtnshow: false,
+      drawer: false,
+      imagesbox: [
+        { id: 0, idView: require("../../assets/images/one.jpg") },
+        { id: 1, idView: require("../../assets/images/two.jpg") },
+        { id: 2, idView: require("../../assets/images/three.jpg") },
+      ],
     };
   },
   computed: {
@@ -233,6 +287,7 @@ export default {
         this.code = "";
         this.orderBtnshow = true;
         this.phoneBtnshow = false;
+        this.drawer = false;
       } else {
         this.$message({
           message: result.errorMsg,

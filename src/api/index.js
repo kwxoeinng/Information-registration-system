@@ -57,3 +57,5 @@ export const reqAddDiary = (obj) => ajax(BASE_URL + '/diary_add', obj, 'POST')
 export const reqAddHealth = (obj) => ajax(BASE_URL + '/health_add', obj, 'POST')
 //线上预约
 export const reqAddOrder = (obj) => ajax(BASE_URL + '/order_add', obj, 'POST')
+//删除公告
+export const reqDelAnnouncement = (obj) => ajax(BASE_URL + '/announcement_del', obj, 'POST')

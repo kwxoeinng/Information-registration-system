@@ -1,56 +1,92 @@
 .clientBox {
-    display: flex;
-    flex-direction: row;
-  }
-  .clientAnnouncement {
-    width: 1200px;
-    height: 750px;
-    text-align: center;
-  }
-  .clientTitle {
-    font-size: 20px;
-    font-family: "Microsoft YaHei";
-    color: #303133;
-    font-weight: bold;
-  }
-  .clientDate {
-    font-size: 12px;
-    font-family: "Hiragino Sans GB";
-    color: #909399;
-  }
-  .clientContent {
-    width: 800px;
-    height: 250px;
-    margin: 15px auto;
-  }
-  .contentText {
-    color: #606266;
-    font-size: 14px;
-    font-family: "PingFang SC";
-  }
-  .clientIssuer {
-    position: relative;
-    float: right;
-    margin-top: 30px;
-    right: 10px;
-    color: #606266;
-    font-size: 13px;
-    font-family: "Hiragino Sans GB";
-  }
-  .orderBox {
-    width: 400px;
-    height: 450px;
-    margin: auto;
-  }
-  .loginPhone {
-    width: 300px;
-    height: 40px;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    text-align: center;
-  }
-  .phoneInput {
-    width: 230px;
-    height: 40px;
-  }
+  display: flex;
+  flex-direction: row;
+  margin: 60px 0;
+  align-items: center;
+  justify-content: center;
+}
+.clientAnnouncement {
+  width: 1200px;
+  text-align: center;
+}
+.clientTitle {
+  font-size: 20px;
+  font-family: "Microsoft YaHei";
+  color: #303133;
+  font-weight: bold;
+}
+.clientDate {
+  font-size: 12px;
+  font-family: "Hiragino Sans GB";
+  color: #909399;
+}
+.clientContent {
+  width: 800px;
+  height: 250px;
+  margin: 15px auto;
+}
+.contentText {
+  color: #606266;
+  font-size: 14px;
+  font-family: "PingFang SC";
+  line-height: 2;
+}
+.clientIssuer {
+  position: relative;
+  float: right;
+  margin-top: 30px;
+  right: 10px;
+  color: #606266;
+  font-size: 13px;
+  font-family: "Hiragino Sans GB";
+}
+.orderBox {
+  width: 400px;
+  height: 450px;
+}
+.loginPhone {
+  width: 300px;
+  height: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  text-align: center;
+}
+.phoneInput {
+  width: 230px;
+  height: 40px;
+}
+.clientHeader {
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+}
+.headerText {
+  position: relative;
+  left: 20px;
+  font-size: 32px;
+  color: #303133;
+  font-family: 黑体;
+}
+.orderText {
+  position: relative;
+  left: 25px;
+  top: 20px;
+  margin-bottom: 50px;
+  font-size: 24px;
+  color: #303133;
+  font-family: 黑体;
+}
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
+}

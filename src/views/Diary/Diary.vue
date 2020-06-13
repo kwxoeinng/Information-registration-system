@@ -6,6 +6,7 @@
         :data="diaryData"
         style="width:100%"
         :default-sort="{ prop: 'diaryDate', order: 'descending' }"
+        v-loading="loading"
       >
         <el-table-column prop="diaryDate" label="日期" sortable width="250">
         </el-table-column>
@@ -58,6 +59,7 @@
   </div>
 </template>
 <script>
+import "./diary.css";
 import { mapState } from "vuex";
 import { reqQueryDiary, reqAddDiary } from "../../api";
 export default {
@@ -74,6 +76,7 @@ export default {
       },
       formLabelWidth: "120px",
       dialogDiary: false,
+      loading: true,
     };
   },
   created() {
@@ -89,6 +92,7 @@ export default {
       result = await reqQueryDiary(obj);
       if (result) {
         this.diaryData = result;
+        this.loading = false;
       } else {
         this.diaryData = [];
       }
@@ -133,9 +137,3 @@ export default {
   },
 };
 </script>
-<style>
-.textStyle {
-  font-size: 14px;
-  color: #909399;
-}
-</style>

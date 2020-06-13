@@ -1,6 +1,7 @@
 <template>
   <div style="width:500px;height:400px;margin:50px auto">
     <el-form
+      v-loading="loading"
       label-position="right"
       label-width="120px"
       :model="formData"
@@ -34,6 +35,7 @@
   </div>
 </template>
 <script>
+import "./information.css";
 import { mapState } from "vuex";
 import { reqQueryMine } from "../../api";
 export default {
@@ -54,6 +56,7 @@ export default {
         minePhone: "",
         mineAddress: "",
       },
+      loading: true,
     };
   },
   methods: {
@@ -63,6 +66,7 @@ export default {
       result = await reqQueryMine(obj);
       if (result) {
         this.formData = result;
+        this.loading = false;
       } else {
         this.formData = {};
       }
@@ -70,4 +74,3 @@ export default {
   },
 };
 </script>
-<style></style>

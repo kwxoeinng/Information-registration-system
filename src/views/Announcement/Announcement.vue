@@ -55,25 +55,64 @@
     <!-- 查询公告 -->
     <div class="queryBox">
       <el-table :data="tableData" stripe style="width: 100%;height:600px">
-        <el-table-column prop="releaseTitle" label="公告标题" width="300">
+        <el-table-column prop="releaseTitle" label="公告标题" width="400">
         </el-table-column>
-        <el-table-column fixed="right" width="150">
+        <el-table-column fixed="right" width="200">
           <template slot-scope="scope">
             <el-button
               icon="el-icon-search"
               size="small"
-              @click="editFunc(scope.row)"
+              @click="queryFunc(scope.row)"
               >查看公告</el-button
+            >
+            <el-button size="small" type="danger" @click="delFunc(scope.row)"
+              >删除</el-button
             >
           </template>
         </el-table-column>
       </el-table>
     </div>
+    <!-- 公告信息 -->
+    <el-dialog
+      :visible.sync="announcementDialog"
+      width="40%"
+      class="announcement"
+    >
+      <div class="releaseTitle" prop="releaseTitle">
+        {{ query.releaseTitle }}
+      </div>
+      <div class="msgContainer">
+        <div class="msgText" prop="releaseTime">
+          {{ query.releaseTime }}
+        </div>
+        <div class="msgText" prop="releaseIssuer">
+          {{ query.releaseIssuer }}
+        </div>
+      </div>
+      <div class="releaseContent" prop="releaseContent">
+        {{ query.releaseContent }}
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="announcementDialog = false">关 闭</el-button>
+      </span>
+    </el-dialog>
+    <!-- 删除对话框 -->
+    <el-dialog title="提示" :visible.sync="dialogVisibleDle" width="30%">
+      <div>是否确认删除?</div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisibleDle = false">取 消</el-button>
+        <el-button type="primary" @click="delConfirm">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
 import "./announcement.css";
-import { reqQueryAnnouncement, reqAddAnnouncement } from "../../api";
+import {
+  reqQueryAnnouncement,
+  reqAddAnnouncement,
+  reqDelAnnouncement,
+} from "../../api";
 export default {
   data() {
     return {
@@ -84,7 +123,17 @@ export default {
         releaseIssuer: "门卫处",
         releaseContent: "",
       },
+      query: {
+        releaseTitle: "",
+        releaseTime: "",
+        releaseIssuer: "",
+        releaseContent: "",
+      },
       tableData: [],
+      announcementDialog: false,
+      dialogVisibleDle: false,
+      row: null,
+      _id: "",
     };
   },
   created() {
@@ -95,6 +144,9 @@ export default {
       let result;
       const obj = {
         releaseTitle: this.releaseTitle,
+        releaseTime: this.releaseTime,
+        releaseIssuer: this.releaseIssuer,
+        releaseContent: this.releaseContent,
       };
       result = await reqQueryAnnouncement(obj);
       if (result) {
@@ -142,7 +194,42 @@ export default {
         });
       }
     },
+    queryFunc(row) {
+      this.announcementDialog = true;
+      this._id = row._id;
+      this.$set(this.$data.query, "releaseTitle", row.releaseTitle);
+      this.$set(this.$data.query, "releaseTime", row.releaseTime);
+      this.$set(this.$data.query, "releaseIssuer", row.releaseIssuer);
+      this.$set(this.$data.query, "releaseContent", row.releaseContent);
+      this.row = row;
+      console.log(this.row);
+    },
+    // 删除弹框
+    delFunc(row) {
+      this.dialogVisibleDle = true;
+      this.row = row;
+    },
+    // 删除提交
+    async delConfirm() {
+      let result;
+      const obj = {
+        id: this.row._id,
+      };
+      result = await reqDelAnnouncement(obj);
+      if (result) {
+        this.$message({
+          message: "删除成功",
+          type: "success",
+        });
+        this.releaseQuery();
+      } else {
+        this.$message({
+          message: result.errorMsg,
+          type: "warning",
+        });
+      }
+      this.dialogVisibleDle = false;
+    },
   },
 };
 </script>
-<style></style>
