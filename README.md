@@ -15,5 +15,3 @@ An exercise project (incomplete)
 - 个人信息
 - 建议反馈
 
-## 未成功：
-1. ElementUI导航栏重复点菜单报错
