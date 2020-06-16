@@ -1,5 +1,6 @@
 # demo
 An exercise project (incomplete)
+vue+vuex+vue-router+axios+element ui+webpack
 
 ## 已完成：
 - 登录
@@ -15,3 +16,5 @@ An exercise project (incomplete)
 - 个人信息
 - 建议反馈
 
+目前问题：
+webpack配置过程中路由
