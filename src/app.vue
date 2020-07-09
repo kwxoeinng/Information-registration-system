@@ -1,9 +1,11 @@
 <template>
-  <div>
+  <div id="app" class="set">
     <el-container>
-      <el-header v-show="$route.meta.showHeader"><Header></Header></el-header>
+      <el-header v-show="$route.meta.showHeader" style="height:80px;"
+        ><Header></Header
+      ></el-header>
       <el-container>
-        <el-aside width="200px" v-show="$route.meta.showSideNav"
+        <el-aside width="250px;height:700px;" v-show="$route.meta.showSideNav"
           ><SideNav></SideNav
         ></el-aside>
         <el-main><router-view></router-view></el-main>
@@ -38,21 +40,25 @@ body {
   padding: 0;
 }
 .el-header {
-  background-color: #b3c0d1;
+  width: 100%;
   color: #333;
-  line-height: 45px;
+  background-color: #0c82dc;
 }
 .el-footer {
+  position: relative;
+  top: 80px;
   color: #909399;
   text-align: center;
   line-height: 10px;
-  font-size:12px;
+  font-size: 12px;
+  width: 100%;
 }
-
+.el-main {
+  width: 100%;
+  padding:0px;
+}
 .el-aside {
-  background-color: #fff;
   color: #333;
-  text-align: center;
-  line-height: 680px;
+  background-color: #fff;
 }
 </style>

@@ -1,98 +1,110 @@
 <template>
-  <div class="box">
-    <!-- 选择登录方式 -->
-    <!-- <div class="loginHeader">
-      <el-menu default-active="1" class="el-menu-demo" mode="horizontal">
-        <el-menu-item index="1" @click="loginWay = true">密码登录</el-menu-item>
-        <el-menu-item index="2" @click="loginWay = false"
-          >手机登录</el-menu-item
-        >
-      </el-menu>
-    </div> -->
-    <el-form @submit.prevent="login">
-      <!-- 密码登录 -->
-      <div>
-        <!-- 用户名 -->
-        <el-form-item class="inputContainer">
+  <div class="box" v-loading="loading">
+    <div class="imgBox"><div class="imgContainer"></div></div>
+    <div class="loginBox">
+      <div class="loginText">信息登记系统门卫登录</div>
+      <div class="loginFrom">
+        <el-form @submit.prevent="login">
+          <!-- 密码登录 -->
+          <div>
+            <!-- 用户名 -->
+            <el-form-item class="inputContainer">
+              <el-input
+                prefix-icon="el-icon-user"
+                v-model="mineID"
+                placeholder="请输入工号"
+                maxlength="11"
+              ></el-input>
+            </el-form-item>
+            <!-- 密码 -->
+            <el-form-item class="inputContainer">
+              <el-input
+                prefix-icon="el-icon-lock"
+                placeholder="请输入密码"
+                v-model="pwd"
+                show-password
+              ></el-input>
+            </el-form-item>
+            <div class="loginBtn">
+              <el-button
+                style="width:100%"
+                type="primary"
+                round
+                size="medium"
+                @click="login('/home')"
+                >登录</el-button
+              >
+            </div>
+            <div style="margin-top:20px;margin-left:60px;font-size:12px;">
+              <el-link @click="$router.replace('/orderclient')"
+                >点击返回预约官网</el-link
+              >
+              <el-link type="info" disabled> | </el-link>
+              <el-link type="primary" :underline="false" @click="changeAdmin()"
+                >我是门卫管理员</el-link
+              >
+            </div>
+          </div>
+        </el-form>
+      </div>
+    </div>
+    <el-dialog
+      title="管理员登录"
+      :visible.sync="dialogAdminVisible"
+      width="20%"
+      style="margin-top:50px;"
+    >
+      <el-form>
+        <el-form-item>
           <el-input
-            v-model="name"
-            placeholder="请输入工号"
-            maxlength="11"
+            v-model="adminName"
+            style="width:200px;margin-left:80px;"
+            prefix-icon="el-icon-user"
+            placeholder="请输入管理员账号"
           ></el-input>
         </el-form-item>
-        <!-- 密码 -->
-        <el-form-item class="inputContainer">
+        <el-form-item>
           <el-input
+            v-model="adminPwd"
+            style="width:200px;margin-left:80px;"
+            prefix-icon="el-icon-lock"
             placeholder="请输入密码"
-            v-model="pwd"
             show-password
           ></el-input>
         </el-form-item>
-        <div class="loginBtn">
-          <el-button
-            style="width:100%"
-            type="primary"
-            round
-            size="medium"
-            @click="login('/home')"
-            >登录</el-button
-          >
-        </div>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="
+            dialogAdminVisible = false;
+            loading = false;
+          "
+          >取 消</el-button
+        >
+        <el-button type="primary" @click="loginAdmin('/administrator')"
+          >登 录</el-button
+        >
       </div>
-      <!-- 短信登录 -->
-      <!-- <div v-show="!loginWay">
-        <div class="inputContainer">
-          <div class="loginPhone">
-            <div class="phoneInput">
-              <el-input
-                type="tel"
-                v-model="phone"
-                placeholder="手机"
-              ></el-input>
-            </div>
-            <el-link
-              :disabled="!rightPhone"
-              :underline="false"
-              @click="getCode"
-              >{{
-                computeTime > 0 ? `还剩(${computeTime}s)` : `获取验证码`
-              }}</el-link
-            >
-          </div>
-        </div>
-        <div class="inputContainer">
-          <el-input
-            style="float:left"
-            v-model="code"
-            placeholder="验证码"
-          ></el-input>
-        </div>
-        <div class="loginBtn">
-          <el-button
-            style="width:100%;"
-            type="primary"
-            round
-            @click="login('/home')"
-            >登录</el-button
-          >
-        </div>
-      </div> -->
-    </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
 import "./login.css";
-import { reqSendCode, reqSmsLogin, reqPwdLogin } from "../../api";
+import { reqSendCode, reqSmsLogin, reqPwdLogin,reqAdminLogin } from "../../api";
 export default {
   data() {
     return {
       // loginWay: true, //登录方式
-      name: "", //用户名
+      mineID: "", //用户名
       pwd: "", //密码
       // cache: "",//图形验证码
       phone: "", //手机号
       code: "", //短信验证码
       computeTime: 0, //倒计时
+      loading: false,
+      dialogAdminVisible: false,
+      adminName: "",
+      adminPwd: "",
     };
   },
   computed: {
@@ -101,22 +113,47 @@ export default {
     },
   },
   methods: {
+    changeAdmin() {
+      this.dialogAdminVisible = true;
+      this.loading = true;
+    },
+    //异步登录
+    async loginAdmin(path) {
+      let result;
+      const { adminName, adminPwd } = this;
+      // 发送ajax请求密码登陆
+      result = await reqAdminLogin({ adminName, adminPwd });
+      // 根据结果数据处理
+      if (result.code === 0) {
+        // 跳转
+        this.$router.replace(path);
+        this.adminName = "";
+        this.adminPwd = "";
+      } else {
+        // 显示警告提示
+        const msg = result.msg;
+        this.$message.error(msg);
+      }
+      this.dialogAdminVisible = false;
+    },
     //异步登录
     async login(path) {
+      // console.log(this.mineID,this.pwd);
       let result;
       // 前端验证
       // if (this.loginWay) {
       //密码登录
-      const { name, pwd } = this;
-      if (!this.name) {
-        this.$message.error("用户名不能为空，请检查");
+      const { mineID, pwd } = this;
+      if (!this.mineID) {
+        this.$message.error("用户名不能为空，请检查！");
         return;
       } else if (!this.pwd) {
-        this.$message.error("密码不能为，请检查");
+        this.$message.error("密码不能为空，请检查！");
         return;
       }
       // 发送ajax请求密码登陆
-      result = await reqPwdLogin({ name, pwd });
+      result = await reqPwdLogin({ mineID, pwd });
+
       // } else {
       //   //短信登录
       //   const { rightPhone, phone, code } = this;
@@ -176,6 +213,17 @@ export default {
         }
       }
     },
+  },
+  beforeRouteEnter(to, from, next) {
+    // ...
+    window.document.body.style.backgroundColor = "#0c82dc";
+    next();
+  },
+  beforeRouteLeave(to, from, next) {
+    // ...
+    this.loading = true;
+    window.document.body.style.backgroundColor = "";
+    next();
   },
 };
 </script>

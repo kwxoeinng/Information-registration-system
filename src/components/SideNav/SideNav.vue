@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width:200px;">
     <el-col>
       <el-menu :default-active="$route.path" class="el-menu-vertical-demo">
         <el-menu-item index="/home" @click="goTo('/home')">

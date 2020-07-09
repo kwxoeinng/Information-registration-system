@@ -17,10 +17,11 @@
           label="评价一下所担任的工作"
           :label-width="formLabelWidth"
         >
-          <el-input
+          <el-rate v-model="add.feedbackRate" placeholder="请输入内容" show-text> </el-rate>
+          <!-- <el-input
             v-model="add.feedbackRate"
             placeholder="请输入内容"
-          ></el-input>
+          ></el-input> -->
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

@@ -26,22 +26,24 @@
     </div>
     <!-- 工作日记 -->
     <el-dialog title="工作日记" :visible.sync="dialogDiary">
-      <el-form :model="add" ref="add">
+      <el-form :model="add" ref="add" :rules="rules">
         <el-form-item label="日期" :label-width="formLabelWidth">
           <el-date-picker
             v-model="add.diaryDate"
             type="date"
             placeholder="选择日期"
-            format="yyyy 年 MM 月 dd 日"
+            format="yyyy-MM-dd"
             value-format="yyyy-MM-dd"
+            :disabled="true"
           >
           </el-date-picker>
         </el-form-item>
-        <div class="textStyle" style="margin:10px 50px">
-          工号：{{ (add.mineID = userInfo.name) }}
+        <div class="textStyle" style="margin:20px 80px">
+          工号：{{ (add.mineID = userInfo.mineID) }}
         </div>
-        <el-form-item
+        <el-form-item prop="diaryContent"
           ><el-input
+            style="margin:10px auto;"
             type="textarea"
             :autosize="{ minRows: 6 }"
             placeholder="完成今天的工作日记吧ヾ(◍°∇°◍)ﾉﾞ"
@@ -53,7 +55,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogDiary = false">取 消</el-button>
-        <el-button type="primary" @click="diaryConfirm('add')">确 定</el-button>
+        <el-button type="primary" @click="submitForm('add')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -71,18 +73,47 @@ export default {
       diaryData: [],
       add: {
         mineID: "",
-        diaryDate: "",
+        diaryDate: this.dateFormat(new Date()),
         diaryContent: "",
       },
       formLabelWidth: "120px",
       dialogDiary: false,
       loading: true,
+      rules: {
+        diaryContent: [
+          { required: true, message: "日记内容不能为空", trigger: "blur" },
+        ],
+      },
     };
   },
   created() {
     this.diaryQuery();
   },
   methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.diaryConfirm("add");
+        } else {
+          return false;
+        }
+      });
+    },
+    //时间格式化函数，此处仅针对yyyy-MM-dd hh:mm:ss 的格式进行格式化
+    dateFormat(time) {
+      var date = new Date(time);
+      var year = date.getFullYear();
+      /* 在日期格式中，月份是从0开始的，因此要加0
+       * 使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
+       * */
+      var month =
+        date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1;
+      var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+      // 拼接
+      return year + "-" + month + "-" + day;
+    },
     async diaryQuery() {
       let result;
       const obj = {

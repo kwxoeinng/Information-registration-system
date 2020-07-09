@@ -2,9 +2,9 @@
   <div class="announceBox">
     <!-- 发布公告 -->
     <div class="releaseBox">
-      <el-form size="medium" :model="add" ref="add">
+      <el-form size="medium" :model="add" ref="add" :rules="rules">
         <!-- 公告标题 -->
-        <el-form-item class="titleBox">
+        <el-form-item class="titleBox" prop="releaseTitle">
           <el-input
             v-model="add.releaseTitle"
             placeholder="请输入公告标题"
@@ -20,8 +20,9 @@
               placeholder="选择日期"
               size="mini"
               style="width:170px"
-              format="yyyy 年 MM 月 dd 日"
+              format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
+              :disabled="true"
             >
             </el-date-picker>
           </el-form-item>
@@ -31,7 +32,7 @@
           </div>
         </div>
         <!-- 公告内容 -->
-        <el-form-item
+        <el-form-item prop="releaseContent"
           ><el-input
             type="textarea"
             :autosize="{ minRows: 20 }"
@@ -47,7 +48,7 @@
           type="primary"
           style="width:200px;"
           round
-          @click="releaseConfirm('add')"
+          @click="submitForm('add')"
           >发布公告</el-button
         >
       </span>
@@ -119,7 +120,7 @@ export default {
       releaseIssuer: "门卫处",
       add: {
         releaseTitle: "",
-        releaseTime: "",
+        releaseTime: this.dateFormat(new Date()),
         releaseIssuer: "门卫处",
         releaseContent: "",
       },
@@ -134,12 +135,44 @@ export default {
       dialogVisibleDle: false,
       row: null,
       _id: "",
+      rules: {
+        releaseTitle: [
+          { required: true, message: "公告标题不能为空", trigger: "blur" },
+        ],
+        releaseContent: [
+          { required: true, message: "公告内容不能为空", trigger: "blur" },
+        ],
+      },
     };
   },
   created() {
     this.releaseQuery();
   },
   methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.releaseConfirm("add");
+        } else {
+          return false;
+        }
+      });
+    },
+    //时间格式化函数，此处仅针对yyyy-MM-dd hh:mm:ss 的格式进行格式化
+    dateFormat(time) {
+      var date = new Date(time);
+      var year = date.getFullYear();
+      /* 在日期格式中，月份是从0开始的，因此要加0
+       * 使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
+       * */
+      var month =
+        date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1;
+      var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+      // 拼接
+      return year + "-" + month + "-" + day;
+    },
     async releaseQuery() {
       let result;
       const obj = {
@@ -187,6 +220,7 @@ export default {
         // 成功后，触发重新查询下数据
         this.releaseQuery();
         this.add = {};
+        this.releaseTime = "2020-07-03";
       } else {
         this.$message({
           message: result.errorMsg,

@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div
-      style="width:400px;height:60px;float:left;font-size:20px;font-weight:bold;margin-top:10px;color:#606266"
-    >
+    <div class="mainText">
       学校来访人员信息登记系统
     </div>
     <div class="headerBox">
@@ -17,13 +15,12 @@
       <!-- 用户名、手机号 -->
       <div class="headerLoginBox">
         <div class="headerLoginText">
-          {{ userInfo.name }}
+          {{ userInfo.mineID }}
         </div>
-        <div class="headerLoginText">
-          <!-- {{ userInfo.phone || "暂无绑定手机号" }} -->
+        <div>
           <el-link
             :underline="false"
-            style="font-size:11px;color:#409EFF"
+            style="font-size:11px;color:#fff"
             icon="el-icon-edit"
             @click="goTo('/health')"
             >健康打卡</el-link
@@ -32,9 +29,18 @@
       </div>
       <!-- 退出登录 -->
       <div class="loginoutBox">
-        <div class="loginoutText">
-          <el-link icon="el-icon-switch-button" @click="loginout">退出</el-link>
-        </div>
+        <el-dropdown>
+          <span>
+            <i class="el-icon-setting" style="color:#fff;font-size:20px;"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item
+              ><el-link icon="el-icon-switch-button" @click="loginout"
+                >退出</el-link
+              ></el-dropdown-item
+            >
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
     </div>
   </div>
@@ -43,13 +49,18 @@
 import "./header.css";
 import { mapState } from "vuex";
 export default {
+  name: "login",
+  data() {
+    return {
+      adminName: "",
+      adminPwd: "",
+      dialogAdminVisible: false,
+    };
+  },
   computed: {
     ...mapState(["userInfo"]),
   },
   methods: {
-    goTo(path) {
-      this.$router.replace(path);
-    },
     loginout() {
       this.$confirm("确认退出登录吗?", "提示", {
         confirmButtonText: "确定",
@@ -60,7 +71,6 @@ export default {
           // 请求退出
           this.$store.dispatch("logout");
           this.$message({
-            type: "success",
             message: "退出成功!",
           });
           this.$router.replace("/login");
@@ -75,3 +85,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+body {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: #0c82dc;
+}
+</style>

@@ -66,7 +66,8 @@ module.exports = {
         // 功能：默认会创建一个空的 HTML，自动引入打包输出的所有资源（JS/CSS）
         new HtmlWebpackPlugin({
             // 复制 './index.html' 文件，并自动引入打包输出的所有资源（JS/CSS）
-            template: 'index.html'
+            template: 'index.html',
+            favicon: path.resolve('./favicon.ico'),
         }),
         new VueLoaderPlugin()
     ],

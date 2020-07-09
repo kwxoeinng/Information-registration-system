@@ -6,19 +6,20 @@
     :showClose="showClo"
     :close-on-click-modal="false"
   >
-    <el-form :model="add" ref="add">
+    <el-form :model="add" ref="add" :rules="healthRules">
       <el-form-item
         label="工号："
         :label-width="formLabelWidth"
         style="width:400px"
       >
-        <div>{{ (add.mineID = userInfo.name) }}</div>
+        <div>{{ (add.mineID = userInfo.mineID) }}</div>
       </el-form-item>
       <div style="display:flex;flex-direaction:row;">
         <el-form-item
           label="体温："
           :label-width="formLabelWidth"
           style="width:300px"
+          prop="temperature"
         >
           <el-select v-model="add.temperature" placeholder="请选择体温">
             <el-option label="36-37℃" value="体温正常"></el-option>
@@ -31,6 +32,7 @@
           label="症状："
           :label-width="formLabelWidth"
           style="width:300px"
+          prop="symptom"
         >
           <el-select v-model="add.symptom" placeholder="请选择出现的症状">
             <el-option label="正常" value="无症状"></el-option>
@@ -40,11 +42,12 @@
         </el-form-item>
       </div>
       <el-form-item
-        label="目前居住地："
+        label="目前所在地："
         :label-width="formLabelWidth"
         style="width:600px"
+        prop="habitation"
       >
-        <el-input v-model="add.habitation"></el-input>
+        <el-input v-model="add.habitation" placeholder="请输入目前所在地"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" style="width:200px;margin-left:500px">
@@ -52,7 +55,7 @@
         type="primary"
         style="width:200px;"
         round
-        @click="healtheConfirm('add')"
+        @click="submitForm('add')"
         >打 卡</el-button
       >
     </span>
@@ -76,9 +79,30 @@ export default {
       },
       formLabelWidth: "120px",
       showClo: false,
+      healthRules: {
+        temperature: [
+          { required: true, message: "请选择体温", trigger: "blur" },
+        ],
+        symptom: [{ required: true, message: "请选择症状", trigger: "blur" }],
+        habitation: [
+          { required: true, message: "目前居住地不能为空", trigger: "blur" },
+        ],
+      },
     };
   },
   methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.healtheConfirm("add");
+        } else {
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
     async healtheConfirm() {
       let result;
       let obj = {};

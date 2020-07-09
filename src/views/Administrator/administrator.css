@@ -1,0 +1,30 @@
+.html,
+body {
+  margin: 0;
+  padding: 0;
+  
+}
+.userTable {
+  position: relative;
+  width: 600px;
+  margin: 20px auto;
+}
+.addUser {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 500px;
+  margin: 10px auto;
+}
+.inputUser {
+  position: relative;
+  margin: 10px 10px;
+  float: left;
+}
+.btnUser {
+  position: relative;
+  left: 480px;
+  bottom: 70px;
+  width:40px;
+  height: 40px;
+}

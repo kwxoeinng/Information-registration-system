@@ -1,63 +1,38 @@
 <template>
-  <div style="width:1201px;height:600px;margin:0 auto">
-    <el-table :data="tableData" border v-loading="loading">
-      <el-table-column
-        type="index"
-        :index="indexMethod"
-        width="150"
-        label="换班时间"
-      >
+  <div style="width:1000px;margin:0 auto;">
+    <el-table :data="tableData" stripe style="width:1000px;height:100%;margin:0 auto;">
+      <el-table-column prop="workDate" label="星期" width="500">
       </el-table-column>
-      <el-table-column prop="daySeven" label="星期天" width="150">
-      </el-table-column>
-      <el-table-column prop="dayOne" label="星期一" width="150">
-      </el-table-column>
-      <el-table-column prop="dayTwo" label="星期二" width="150">
-      </el-table-column>
-      <el-table-column prop="dayThree" label="星期三" width="150">
-      </el-table-column>
-      <el-table-column prop="dayFour" label="星期四" width="150">
-      </el-table-column>
-      <el-table-column prop="dayFive" label="星期五" width="150">
-      </el-table-column>
-      <el-table-column prop="daySix" label="星期六" width="150">
+      <el-table-column prop="workTime" label="时间" width="500">
       </el-table-column>
     </el-table>
   </div>
 </template>
-
 <script>
-import "./arrange.css";
-import { reqQueryArrange } from "../../api";
+import { mapState } from "vuex";
+import { reqWorkConditionsQuery } from "../../api";
 export default {
+  computed: {
+    ...mapState(["userInfo"]),
+  },
   data() {
     return {
       tableData: [],
-      loading: true,
     };
   },
   created() {
-    this.arrangeQuery();
+    this.conditionsQuery();
   },
   methods: {
-    indexMethod(index) {
-      return index * 6 + "点";
-    },
-    async arrangeQuery() {
+    //条件查询
+    async conditionsQuery() {
       let result;
       const obj = {
-        daySeven: this.daySeven,
-        dayOne: this.dayOne,
-        dayTwo: this.dayTwo,
-        dayThree: this.dayThree,
-        dayFour: this.dayFour,
-        dayFive: this.dayFive,
-        daySix: this.daySix,
+        mineID: this.userInfo.mineID,
       };
-      result = await reqQueryArrange(obj);
+      result = await reqWorkConditionsQuery(obj);
       if (result) {
         this.tableData = result;
-        this.loading = false;
       } else {
         this.tableData = [];
       }
@@ -65,3 +40,4 @@ export default {
   },
 };
 </script>
+<style></style>

@@ -15,9 +15,14 @@ import Information from '../views/Information/Information.vue'
 import Feedback from '../views/Feedback/Feedback.vue'
 import Login from '../views/Login/Login.vue'
 import OrderClient from '../views/OrderClient/OrderClient.vue'
+import Administrator from '../views/Administrator/Administrator.vue'
+import Infm from '../views/Infm/Infm.vue'
+import Arrm from '../views/Arrm/Arrm.vue'
+import Healm from '../views/Healm/Healm.vue'
+
 
 Vue.use(VueRouter)
-// 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
+// 解决ElementUI导航栏中的重复点菜单报错问题
 const originalReplace = VueRouter.prototype.replace;
 VueRouter.prototype.replace = function replace(location) {
     return originalReplace.call(this, location).catch(err => err);
@@ -26,11 +31,27 @@ const router = new VueRouter({
     mode: 'history',
     routes: [{
             path: '/',
-            redirect: '/login',
+            redirect: '/orderclient',
         },
         {
             path: '/orderclient',
-            component: OrderClient
+            component: OrderClient,
+        },
+        {
+            path: '/administrator',
+            component: Administrator,
+        },
+        {
+            path: '/infm',
+            component: Infm,
+        },
+        {
+            path: '/arrm',
+            component: Arrm,
+        },
+        {
+            path: '/healm',
+            component: Healm,
         },
         //健康打卡
         {
