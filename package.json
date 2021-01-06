@@ -58,7 +58,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "ele-calendar": "^1.2.0",
     "vuex": "^3.4.0"
   }
